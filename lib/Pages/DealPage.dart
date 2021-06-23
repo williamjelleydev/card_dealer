@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class DealPage extends StatefulWidget {
 
-  CardProvider cardProvider;
+  final CardProvider cardProvider;
 
   DealPage({this.cardProvider});
 
@@ -80,15 +80,6 @@ class _DealPageState extends State<DealPage> {
     return card;
   }
 
-
-  // List<String> cards = ['6D.jpg', '6S.jpg', '5H.jpg', '9H.jpg', '7C.jpg', 'AS.jpg',
-  //   'AD.jpg', '6C.jpg', '8H.jpg', '7D.jpg', '4H.jpg', '7S.jpg', 'AC.jpg', 'QH.jpg',
-  //   'JC.jpg', '10D.jpg', '10S.jpg', 'KS.jpg', 'KD.jpg', '3H.jpg', '2H.jpg', 'JS.jpg',
-  //   'JD.jpg', 'KC.jpg', '10C.jpg', '3C.jpg', '2S.jpg', '2D.jpg', 'JH.jpg', 'QC.jpg',
-  //   '10H.jpg', 'KH.jpg', '3S.jpg', '3D.jpg', 'QS.jpg', 'QD.jpg', '2C.jpg', '7H.jpg',
-  //   '4S.jpg', '4D.jpg', '9C.jpg', '5C.jpg', '8S.jpg', '8D.jpg', '9S.jpg', '9D.jpg',
-  //   '4C.jpg', 'AH.jpg', '8C.jpg', '5S.jpg', '6H.jpg', '5D.jpg'];
-
   void shuffleCards() {
     // well that was easy lol
     cards.shuffle();
@@ -96,7 +87,7 @@ class _DealPageState extends State<DealPage> {
   }
 
 
-  // This code is pretty copy-pastad from HomePage, maybe they should be
+  // TODO: This code is pretty copy-pastad from HomePage, maybe they should be
   // added to Shared...?
   Widget button(String text, double fontSize, VoidCallback onPressed) {
     return ElevatedButton(

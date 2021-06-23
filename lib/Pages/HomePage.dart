@@ -1,4 +1,5 @@
 import 'package:card_dealer/Constants/MyColors.dart';
+import 'package:card_dealer/Pages/CustomizeDeckPage.dart';
 import 'package:card_dealer/Pages/DealPage.dart';
 import 'package:card_dealer/Services/CardProvider.dart';
 import 'package:card_dealer/Shared/SharedWidgets.dart';
@@ -43,8 +44,12 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(context, new MaterialPageRoute(
                                 builder: (context) => DealPage(cardProvider: cardProvider)));
                           }),
-                          button('Customize Deck', () {}),
-                          button('Settings', () {}),
+                          button('Customize Deck', () {
+                            Navigator.push(context, new MaterialPageRoute(
+                                builder: (context) => CustomizeDeckPage(cardProvider: cardProvider)));
+                          }),
+                          button('Settings', () {
+                          }),
                         ],
                       ),
                     )

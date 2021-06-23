@@ -31,4 +31,14 @@ class CardProvider {
   String getBackCard() {
     return 'Red_back.jpg';
   }
+
+  void setCardAvailable(String card) {
+    // TODO: better handling of poor data
+    availableCards[card] = true;
+  }
+
+  void setCardUnavailable(String card) {
+    // TODO: better handling of poor data
+    availableCards[card] = false;
+  }
 }
