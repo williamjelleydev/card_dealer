@@ -72,7 +72,9 @@ class _DealPageState extends State<DealPage> {
 
   String getNextCard() {
     if (_currentCardIndex >= cards.length) {
-      return 'Red_back.jpg';
+      return cardProvider.getBackCard();
+      // TODO: Maybe if you then click this one _more_ time it returns you to
+      //  the homescreen..?
     }
     var card = cards[_currentCardIndex];
     return card;

@@ -27,4 +27,8 @@ class CardProvider {
     }
     return result;
   }
+
+  String getBackCard() {
+    return 'Red_back.jpg';
+  }
 }
