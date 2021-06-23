@@ -1,4 +1,6 @@
 import 'package:card_dealer/Constants/MyColors.dart';
+import 'package:card_dealer/Pages/DealPage.dart';
+import 'package:card_dealer/Shared/SharedWidgets.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,24 +12,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Center(child:
-          Text(
-            'Card Dealer',
-            style: TextStyle(
-              color: MyColors.text,
-            ),
-          )
-          ),
-          backgroundColor: MyColors.appBar,
-        ),
+        appBar: SharedWidgets().appBar('Card Dealer'),
+        backgroundColor: MyColors.poolGreen,
         body: Container(
           padding: EdgeInsets.fromLTRB(30.0, 65.0, 30.0, 65.0),
           // color: Colors.green,
-          decoration: BoxDecoration(
-            // borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            color: MyColors.poolGreen,
-          ),
           child: Container(
             // color: Colors.redAccent,
             // padding: EdgeInsets.all(20.0),
@@ -49,11 +38,14 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     spacingBetweenButtons(),
                     // TODO: bigger buttons here somehow..
-                    button('Deal Cards!'),
+                    button('Deal Cards!', () {
+                      Navigator.push(context, new MaterialPageRoute(
+                          builder: (context) => DealPage()));
+                    }),
                     spacingBetweenButtons(),
-                    button('Customize Deck'),
+                    button('Customize Deck', () {}),
                     spacingBetweenButtons(),
-                    button('Settings'),
+                    button('Settings', () {}),
                   ],
                 ),
               ),
@@ -68,11 +60,22 @@ class _HomePageState extends State<HomePage> {
     return SizedBox(height: 110.0);
   }
 
-  Widget button(String text) {
+  Widget widgetInsidePoolBackground(Widget widget) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(30.0, 65.0, 30.0, 65.0),
+      // color: Colors.green,
+      decoration: BoxDecoration(
+      // borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      color: MyColors.poolGreen,
+      ),
+    child: widget);
+  }
+
+  Widget button(String text, VoidCallback onPressed) {
     // TODO: make sure these buttons are all the same size somehow..
     return ElevatedButton(
       // TODO: redirect to DealPage
-      onPressed: () {},
+      onPressed: onPressed,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 6.0, 0.0, 6.0),
         child: Text(
