@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: MyColors.appBar,
         ),
         body: Container(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.fromLTRB(30.0, 65.0, 30.0, 65.0),
           // color: Colors.green,
           decoration: BoxDecoration(
             // borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -30,22 +30,32 @@ class _HomePageState extends State<HomePage> {
           ),
           child: Container(
             // color: Colors.redAccent,
+            // padding: EdgeInsets.all(20.0),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              // borderRadius: BorderRadius.all(Radius.circular(10.0)),
               // TODO: change this to be the back of a card..
-              color: Colors.red,
+              image: DecorationImage(
+                image: AssetImage("assets/playing_card_back3.png"),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              // color: Colors.red,
             ),
-            child: Center(
-              child: Column(
-                children: [
-                  spacingBetweenButtons(),
-                  // TODO: bigger buttons here somehow..
-                  button('Deal!'),
-                  spacingBetweenButtons(),
-                  button('Customize Deck'),
-                  spacingBetweenButtons(),
-                  button('Settings'),
-                ],
+            child: Container(
+              padding: EdgeInsets.fromLTRB(40.0, 0.0, 35.0, 0.0),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    spacingBetweenButtons(),
+                    // TODO: bigger buttons here somehow..
+                    button('Deal Cards!'),
+                    spacingBetweenButtons(),
+                    button('Customize Deck'),
+                    spacingBetweenButtons(),
+                    button('Settings'),
+                  ],
+                ),
               ),
             ),
           ),
@@ -62,13 +72,26 @@ class _HomePageState extends State<HomePage> {
     // TODO: make sure these buttons are all the same size somehow..
     return ElevatedButton(
       // TODO: redirect to DealPage
-        onPressed: () {},
+      onPressed: () {},
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 6.0, 0.0, 6.0),
         child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 30.0,
+          text,
+          style: TextStyle(
+            fontSize: 30.0,
+            color: MyColors.text
             )
-        )
+        ),
+      ),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith((states) => MyColors.appBar),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular((18.0)),
+            side: BorderSide(color: Colors.black, width: 3.0),
+          )
+        ),
+      ),
     );
   }
 }
