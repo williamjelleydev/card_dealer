@@ -17,64 +17,65 @@ class _DealPageState extends State<DealPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: SharedWidgets().appBar('Card Dealer'),
-        backgroundColor: MyColors.poolGreen, // if this even does anything.. lol.
-        body: Column(
-          children: [
-            Padding(
-              // TODO: see if we can replace this with mainAxisAlignment or something..?
-              padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
-              // TODO: change the homepage so the background image card sits the same!
-              child: IconButton(
-                icon: Image.asset('assets/${getNextCard()}.jpg'),
-                iconSize: 500,
-                onPressed: () {
-                  setState(() {
-                    _currentCardIndex++;
-                  });
-                },
-              ),
+      // The appbar text is not very nicely centered :(
+      appBar: SharedWidgets().appBar('Card Dealer'),
+      backgroundColor: MyColors.poolGreen, // if this even does anything.. lol.
+      body: Column(
+        children: [
+          Padding(
+            // TODO: see if we can replace this with mainAxisAlignment or something..?
+            padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
+            // TODO: change the homepage so the background image card sits the same!
+            child: IconButton(
+              icon: Image.asset('assets/${getNextCard()}'),
+              iconSize: 500,
+              onPressed: () {
+                setState(() {
+                  _currentCardIndex++;
+                });
+              },
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // TODO: sensible spacing between stuff
-                // Make buttons round as well!
-                button('Menu', 20.0, () {
-                  Navigator.pop(context);
-                }),
-                button('Next Card', 30.0, () {
-                  setState(() {
-                    _currentCardIndex++;
-                  });
-                }),
-                button('Shuffle', 20.0, () {
-                  setState(() {
-                    shuffleCards();
-                  });
-                })
-              ],
-            )
-          ],
-        )
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              // TODO: sensible spacing between stuff
+              button('Menu', 20.0, () {
+                Navigator.pop(context);
+              }),
+              button('Next Card', 30.0, () {
+                setState(() {
+                  _currentCardIndex++;
+                });
+              }),
+              button('Shuffle', 20.0, () {
+                setState(() {
+                  shuffleCards();
+                });
+              })
+            ],
+          )
+        ],
+      )
     );
   }
 
   String getNextCard() {
     if (_currentCardIndex >= cards.length) {
-      return 'Red_back';
+      return 'Red_back.jpg';
     }
     var card = cards[_currentCardIndex];
     return card;
   }
 
 
-
-  // get the code working, _then_ worry about trying to add the rest in, or
-  // shuffle these or whatever
-  List<String> cards = [
-    '2C', '2D', '2H', '2S'
-  ];
+  List<String> cards = ['6D.jpg', '6S.jpg', '5H.jpg', '9H.jpg', '7C.jpg', 'AS.jpg',
+    'AD.jpg', '6C.jpg', '8H.jpg', '7D.jpg', '4H.jpg', '7S.jpg', 'AC.jpg', 'QH.jpg',
+    'JC.jpg', '10D.jpg', '10S.jpg', 'KS.jpg', 'KD.jpg', '3H.jpg', '2H.jpg', 'JS.jpg',
+    'JD.jpg', 'KC.jpg', '10C.jpg', '3C.jpg', '2S.jpg', '2D.jpg', 'JH.jpg', 'QC.jpg',
+    '10H.jpg', 'KH.jpg', '3S.jpg', '3D.jpg', 'QS.jpg', 'QD.jpg', '2C.jpg', '7H.jpg',
+    '4S.jpg', '4D.jpg', '9C.jpg', '5C.jpg', '8S.jpg', '8D.jpg', '9S.jpg', '9D.jpg',
+    '4C.jpg', 'AH.jpg', '8C.jpg', '5S.jpg', '6H.jpg', '5D.jpg'];
 
   void shuffleCards() {
     // well that was easy lol
@@ -83,8 +84,9 @@ class _DealPageState extends State<DealPage> {
   }
 
 
+  // This code is pretty copy-pastad from HomePage, maybe they should be
+  // added to Shared...?
   Widget button(String text, double fontSize, VoidCallback onPressed) {
-    // TODO: make sure these buttons are all the same size somehow..
     return ElevatedButton(
       // TODO: redirect to DealPage
       onPressed: onPressed,
