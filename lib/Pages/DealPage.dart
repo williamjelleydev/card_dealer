@@ -22,6 +22,7 @@ class _DealPageState extends State<DealPage> {
 
   _DealPageState({this.cardProvider}) {
     cards = cardProvider.getAvailableCards();
+    cards.shuffle();
   }
 
   @override

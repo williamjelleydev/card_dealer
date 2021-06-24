@@ -16,9 +16,6 @@ class CustomizeDeckPage extends StatefulWidget {
 }
 
 class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
-  // TODO: See if Wrap works better than GridView for this..?
-  // https://www.youtube.com/watch?v=z5iw2SeFx2M&ab_channel=GoogleDevelopers
-
   CardProvider cardProvider;
 
   List<String> allCards;
@@ -31,19 +28,33 @@ class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
 
   @override
   Widget build(BuildContext context) {
-    // This will somehow have to show all cards...
 
     return new Scaffold(
       appBar: SharedWidgets().appBar('Customize Deck'),
       backgroundColor: MyColors.poolGreen,
-      // body: GridView.count(
-      //   crossAxisCount: 6,
-      //   children: getAllCardIcons2(),
-      // ),
-      body: Wrap(
-        spacing: 3.0,
-        alignment: WrapAlignment.start,
-        children: getAllCardIcons2(),
+      body: Column(
+        children: [
+          Wrap(
+            spacing: 3.0,
+            alignment: WrapAlignment.start,
+            children: getCardIconsFromAvailabilityMapping(cardProvider.getSuitMapForSuit('S')),
+          ),
+          Wrap(
+            spacing: 3.0,
+            alignment: WrapAlignment.start,
+            children: getCardIconsFromAvailabilityMapping(cardProvider.getSuitMapForSuit('C')),
+          ),
+          Wrap(
+            spacing: 3.0,
+            alignment: WrapAlignment.start,
+            children: getCardIconsFromAvailabilityMapping(cardProvider.getSuitMapForSuit('D')),
+          ),
+          Wrap(
+            spacing: 3.0,
+            alignment: WrapAlignment.start,
+            children: getCardIconsFromAvailabilityMapping(cardProvider.getSuitMapForSuit('H')),
+          ),
+        ],
       )
     );
   }
@@ -96,15 +107,10 @@ class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
     }
   }
 
-  List<Widget> getAllCardIcons2() {
+  List<Widget> getCardIconsFromAvailabilityMapping(Map<String, bool> cards) {
     List<Widget> result = [];
-    //
-    // cardProvider.getAvailableCards().forEach((card) {
-    //   // TODO: the "true" should come from the cardProvider availability..
-    //   result.add(getIconButtonFromCard(card, true));
-    // });
 
-    cardProvider.getAllCards().forEach((card, isAvailable) {
+    cards.forEach((card, isAvailable) {
       result.add(getIconButtonFromCard(card, isAvailable));
     });
 
