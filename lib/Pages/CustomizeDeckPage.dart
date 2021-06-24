@@ -36,10 +36,14 @@ class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
     return new Scaffold(
       appBar: SharedWidgets().appBar('Customize Deck'),
       backgroundColor: MyColors.poolGreen,
-      body: GridView.count(
-        crossAxisCount: 6,
+      // body: GridView.count(
+      //   crossAxisCount: 6,
+      //   children: getAllCardIcons2(),
+      // ),
+      body: Wrap(
+        alignment: WrapAlignment.start,
         children: getAllCardIcons2(),
-      ),
+      )
     );
   }
 
@@ -51,32 +55,24 @@ class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
   IconButton getIconButtonFromCard(String card, bool isAvailable) {
 
     if (isAvailable) {
+      // TODO: I need to figure out how to make sure these are big enough??
       return IconButton(
-          icon: Image.asset('assets/${card}'),
-          onPressed: () {
-            // TODO: mark off as crossed on screen and in cardProvider?
-            // hmmm, setState() will _probably_ do what I want here, but is
-            // probably a pretty pricey move to be doing for each press to be honest..
-            setState(() {
-              cardProvider.setCardUnavailable(card);
-            });
-          }
+        iconSize: 30.0,
+        padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
+        icon: Image.asset('assets/${card}'),
+        onPressed: () {
+          // TODO: mark off as crossed on screen and in cardProvider?
+          // hmmm, setState() will _probably_ do what I want here, but is
+          // probably a pretty pricey move to be doing for each press to be honest..
+          setState(() {
+            cardProvider.setCardUnavailable(card);
+          });
+        }
       );
     } else {
-      // TODO: figure out how to overlay a cross on this..
-      // return IconButton(
-      //   icon: Icon(
-      //     Icons.not_interested,
-      //     // Annoyingly this isn't red, but whatever, it is okay for now..
-      //     color: Colors.red[850],
-      //   ),
-      //   onPressed: () {
-      //     setState(() {
-      //       cardProvider.setCardAvailable(card);
-      //     });
-      //   }
-      // );
       return IconButton(
+        iconSize: 30.0,
+        padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
         icon: Center(
           child: Container(
             child: Stack(
