@@ -5,13 +5,12 @@ class SharedWidgets {
 
   Widget appBar(String title) {
     return AppBar(
-      title: Center(child:
-      Text(
+      centerTitle: true,
+      title: Text(
         title,
         style: TextStyle(
           color: MyColors.text,
         ),
-      )
       ),
       backgroundColor: MyColors.appBar,
     );
