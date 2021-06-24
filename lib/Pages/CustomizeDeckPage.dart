@@ -41,6 +41,7 @@ class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
       //   children: getAllCardIcons2(),
       // ),
       body: Wrap(
+        spacing: 3.0,
         alignment: WrapAlignment.start,
         children: getAllCardIcons2(),
       )
@@ -49,19 +50,20 @@ class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
 
   String getNextCard() {
     // TODO: what the heck this sucks, just do better lol
+    // Is this even still in use anymore..?
     return allCards[currentCardIndex++];
   }
 
-  IconButton getIconButtonFromCard(String card, bool isAvailable) {
+  Widget getIconButtonFromCard(String card, bool isAvailable) {
 
     if (isAvailable) {
       // TODO: I need to figure out how to make sure these are big enough??
       return IconButton(
+        constraints: BoxConstraints(minHeight: 70.0, minWidth: 40.0),
         iconSize: 30.0,
-        padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
+        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
         icon: Image.asset('assets/${card}'),
         onPressed: () {
-          // TODO: mark off as crossed on screen and in cardProvider?
           // hmmm, setState() will _probably_ do what I want here, but is
           // probably a pretty pricey move to be doing for each press to be honest..
           setState(() {
@@ -71,8 +73,9 @@ class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
       );
     } else {
       return IconButton(
-        iconSize: 30.0,
-        padding: EdgeInsets.fromLTRB(0.0, 3.0, 0.0, 3.0),
+        iconSize: 39.0,
+        constraints: BoxConstraints(minHeight: 70.0, minWidth: 40.0),
+        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
         icon: Center(
           child: Container(
             child: Stack(
@@ -80,7 +83,6 @@ class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
               children: [
                 Image.asset('assets/${card}'),
                 // TODO: can probably do a better looking icon (maybe red??) but whatever for now..
-                // This needs to be bigger actually...
                 Icon(Icons.not_interested),
               ],
             ),
@@ -94,8 +96,8 @@ class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
     }
   }
 
-  List<IconButton> getAllCardIcons2() {
-    List<IconButton> result = [];
+  List<Widget> getAllCardIcons2() {
+    List<Widget> result = [];
     //
     // cardProvider.getAvailableCards().forEach((card) {
     //   // TODO: the "true" should come from the cardProvider availability..
