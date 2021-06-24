@@ -48,36 +48,6 @@ class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
     return allCards[currentCardIndex++];
   }
 
-  List<IconButton> getAllCardIcons() {
-    // Looks garbage but help plumb things for now
-    List<IconButton> allCardIcons = [
-      IconButton(
-        // TODO: I wonder if I could put this in a loop or not...?
-        // Suuuurely this can be automated right??
-        icon: Image.asset('assets/${getNextCard()}'),
-        onPressed: () {
-          // mark as crossed off somehow onscreen and in cardProvider??
-        },
-      ),
-      IconButton(
-        // I wonder if I could put this in a loop or not...?
-        icon: Image.asset('assets/${getNextCard()}'),
-        onPressed: () {
-          // mark as crossed off somehow onscreen and in cardProvider??
-        },
-      ),
-      IconButton(
-        // I wonder if I could put this in a loop or not...?
-        icon: Image.asset('assets/${getNextCard()}'),
-        onPressed: () {
-          // mark as crossed off somehow onscreen and in cardProvider??
-        },
-      ),
-    ];
-
-    return allCardIcons;
-  }
-
   IconButton getIconButtonFromCard(String card, bool isAvailable) {
 
     if (isAvailable) {
@@ -94,14 +64,50 @@ class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
       );
     } else {
       // TODO: figure out how to overlay a cross on this..
+      // return IconButton(
+      //   icon: Icon(
+      //     Icons.not_interested,
+      //     // Annoyingly this isn't red, but whatever, it is okay for now..
+      //     color: Colors.red[850],
+      //   ),
+      //   onPressed: () {
+      //     setState(() {
+      //       cardProvider.setCardAvailable(card);
+      //     });
+      //   }
+      // );
+      return IconButton(
+        icon: Center(
+          child: Container(
+            child: Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                Image.asset('assets/${card}'),
+                // TODO: can probably do a better looking icon (maybe red??) but whatever for now..
+                // This needs to be bigger actually...
+                Icon(Icons.not_interested),
+              ],
+            ),
+          ),
+        ),
+        onPressed: () {
+          setState(() {
+            cardProvider.setCardAvailable(card);
+          });
+        });
     }
   }
 
   List<IconButton> getAllCardIcons2() {
     List<IconButton> result = [];
-    cardProvider.getAvailableCards().forEach((card) {
-      // TODO: the "true" should come from the cardProvider availability..
-      result.add(getIconButtonFromCard(card, true));
+    //
+    // cardProvider.getAvailableCards().forEach((card) {
+    //   // TODO: the "true" should come from the cardProvider availability..
+    //   result.add(getIconButtonFromCard(card, true));
+    // });
+
+    cardProvider.getAllCards().forEach((card, isAvailable) {
+      result.add(getIconButtonFromCard(card, isAvailable));
     });
 
     return result;
