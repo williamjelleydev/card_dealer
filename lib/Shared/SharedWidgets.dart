@@ -9,7 +9,8 @@ class SharedWidgets {
       title: Text(
         title,
         style: TextStyle(
-          color: MyColors.text,
+          color: Colors.white.withOpacity(0.9),
+          fontSize: 30.0,
         ),
       ),
       backgroundColor: MyColors.appBar,

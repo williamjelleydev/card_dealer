@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith((states) => MyColors.appBar),
+        backgroundColor: MaterialStateProperty.resolveWith((states) => MyColors.button),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular((18.0)),

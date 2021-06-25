@@ -2,6 +2,7 @@ import 'package:card_dealer/Constants/MyColors.dart';
 import 'package:card_dealer/Services/CardProvider.dart';
 import 'package:card_dealer/Shared/SharedWidgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swipable/flutter_swipable.dart';
 
 class DealPage extends StatefulWidget {
 
@@ -27,47 +28,59 @@ class _DealPageState extends State<DealPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    // TODO: this is probably an expensive operation to get these all...
+    // You should probably think about how to optimise this so each
+    // each swipe might be able to load more or something..?
+    List<Widget> swipeableCards  = [];
+    cards.forEach((card) {
+      swipeableCards.add(SwipableCard(
+          card: 'assets/$card'
+      ));
+    });
+
+    // Hmmm, I will continue with this, and figure out how to lay it out nicely again..
+    // But I kind of feel like I should be creating swipable stack with just a single
+    // card..?
+    // And then once it gets swiped, it then loads the next card or something..?
+    // I kind of feel like I should have that card on the back, but maybe not..?
     return new Scaffold(
-      // The appbar text is not very nicely centered :(
-      appBar: SharedWidgets().appBar('Card Dealer'),
-      backgroundColor: MyColors.poolGreen, // if this even does anything.. lol.
-      body: Column(
-        children: [
-          Padding(
-            // TODO: see if we can replace this with mainAxisAlignment or something..?
-            padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
-            // TODO: change the homepage so the background image card sits the same!
-            child: IconButton(
-              icon: Image.asset('assets/${getNextCard()}'),
-              iconSize: 500,
-              onPressed: () {
-                setState(() {
-                  _currentCardIndex++;
-                });
-              },
-            ),
-          ),
-          Row(
+        appBar: SharedWidgets().appBar('Card Dealer'),
+        backgroundColor: MyColors.poolGreen,
+        body: Center(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              // TODO: sensible spacing between stuff
-              button('Menu', 20.0, () {
-                Navigator.pop(context);
-              }),
-              button('Next Card', 30.0, () {
-                setState(() {
-                  _currentCardIndex++;
-                });
-              }),
-              button('Shuffle', 20.0, () {
-                setState(() {
-                  shuffleCards();
-                });
-              })
+              Container(
+                  width: MediaQuery.of(context).size.width * 0.78,
+                  height: MediaQuery.of(context).size.height * 0.65,
+                  child: Stack(
+                    children: swipeableCards,
+                  )
+              ),
+              // TODO: add the buttons in at the bottom
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // TODO: sensible spacing between stuff
+                  button('Menu', 20.0, () {
+                    Navigator.pop(context);
+                  }),
+                  button('Next Card', 30.0, () {
+                    setState(() {
+                      _currentCardIndex++;
+                    });
+                  }),
+                  button('Shuffle', 20.0, () {
+                    setState(() {
+                      shuffleCards();
+                    });
+                  })
+                ],
+              )
             ],
-          )
-        ],
-      )
+          ),
+        )
     );
   }
 
@@ -106,7 +119,7 @@ class _DealPageState extends State<DealPage> {
       ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith((states) =>
-        MyColors.appBar),
+        MyColors.button),
         shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular((18.0)),
@@ -117,4 +130,27 @@ class _DealPageState extends State<DealPage> {
     );
   }
 }
+
+
+class SwipableCard extends StatelessWidget {
+  @override
+
+  final String card;
+
+  SwipableCard({this.card});
+
+  Widget build(BuildContext context) {
+    return build2(context);
+  }
+
+  Widget build2(BuildContext context) {
+    return Swipable(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25.0),
+        child: Image.asset(card),
+      )
+    );
+  }
+}
+
 
