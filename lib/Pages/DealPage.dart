@@ -1,4 +1,4 @@
-import 'package:card_dealer/Constants/MyColors.dart';
+import 'dart:async';
 import 'package:card_dealer/Services/CardProvider.dart';
 import 'package:card_dealer/Services/ColorService.dart';
 import 'package:card_dealer/Shared/SharedWidgets.dart';
@@ -18,6 +18,13 @@ class DealPage extends StatefulWidget {
 
 class _DealPageState extends State<DealPage> {
   int _currentCardIndex = 0;
+  // Hmm - this will be tacky as, since I would need a _new_ stream for _each_ card..
+
+  StreamController<double> _streamController = StreamController<double>();
+
+  // THis is such shit code, but pretty keen to just get it to work for now..
+  List<StreamController> _streamControllers = [];
+
 
   // This cardProvider _probably_ doesn't need to be stored on here..
   CardProvider cardProvider;
@@ -32,21 +39,34 @@ class _DealPageState extends State<DealPage> {
   @override
   Widget build(BuildContext context) {
 
+    // _currentCardIndex = cards.length - 1;
+
+    Stream<double> _stream = _streamController.stream;
+
+
     // TODO: this is probably an expensive operation to get these all...
     // You should probably think about how to optimise this so each
     // each swipe might be able to load more or something..?
-    List<Widget> swipeableCards  = [];
+    List<Widget> allCards  = [];
+    allCards.add(
+        ClipRRect(
+          borderRadius: BorderRadius.circular(25.0),
+          child: Image.asset(
+              'assets/${cardProvider.getBackCard()}'
+          ),
+        )
+    );
+    
     cards.forEach((card) {
-      swipeableCards.add(SwipableCard(
-          card: 'assets/$card'
+      var streamController = new StreamController<double>();
+      _streamControllers.add(streamController);
+      allCards.add(SwipableCard(
+        onSwipeCallback: (thing1, thing2) => _currentCardIndex++,
+        swipeControl: streamController.stream,
+        card: 'assets/$card'
       ));
     });
 
-    // Hmmm, I will continue with this, and figure out how to lay it out nicely again..
-    // But I kind of feel like I should be creating swipable stack with just a single
-    // card..?
-    // And then once it gets swiped, it then loads the next card or something..?
-    // I kind of feel like I should have that card on the back, but maybe not..?
     return new Scaffold(
         appBar: SharedWidgets().appBar('Card Dealer', colorService),
         backgroundColor: colorService.background,
@@ -58,21 +78,22 @@ class _DealPageState extends State<DealPage> {
                   width: MediaQuery.of(context).size.width * 0.78,
                   height: MediaQuery.of(context).size.height * 0.65,
                   child: Stack(
-                    children: swipeableCards,
+                    children: allCards,
                   )
               ),
-              // TODO: add the buttons in at the bottom
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // TODO: sensible spacing between stuff
                   button('Menu', 20.0, () {
                     Navigator.pop(context);
                   }),
                   button('Next Card', 30.0, () {
-                    setState(() {
-                      _currentCardIndex++;
-                    });
+                    if (_currentCardIndex < cards.length) {
+                      // For whatever reason .5 angle means it goes right..
+                      var angle = 0.5;
+                      _streamControllers[_streamControllers.length - 1 -
+                          _currentCardIndex].add(angle);
+                    }
                   }),
                   button('Shuffle', 20.0, () {
                     setState(() {
@@ -90,8 +111,6 @@ class _DealPageState extends State<DealPage> {
   String getNextCard() {
     if (_currentCardIndex >= cards.length) {
       return cardProvider.getBackCard();
-      // TODO: Maybe if you then click this one _more_ time it returns you to
-      //  the homescreen..?
     }
     var card = cards[_currentCardIndex];
     return card;
@@ -134,13 +153,16 @@ class _DealPageState extends State<DealPage> {
   }
 }
 
-
+// TODO: this should probably have it's own file..
 class SwipableCard extends StatelessWidget {
   @override
 
   final String card;
+  // TODO: these names need to be more descriptive
+  final Stream<double> swipeControl;
+  final Function onSwipeCallback;
 
-  SwipableCard({this.card});
+  SwipableCard({this.card, this.swipeControl, this.onSwipeCallback});
 
   Widget build(BuildContext context) {
     return build2(context);
@@ -148,6 +170,8 @@ class SwipableCard extends StatelessWidget {
 
   Widget build2(BuildContext context) {
     return Swipable(
+      onSwipeEnd: onSwipeCallback,
+      swipe: swipeControl,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25.0),
         child: Image.asset(card),

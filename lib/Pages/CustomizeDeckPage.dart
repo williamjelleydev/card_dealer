@@ -14,7 +14,7 @@ class CustomizeDeckPage extends StatefulWidget {
   CustomizeDeckPage({this.cardProvider, this.colorService});
 
   @override
-  _CustomizeDeckPageState createState() => _CustomizeDeckPageState(cardProvider: cardProvider);
+  _CustomizeDeckPageState createState() => _CustomizeDeckPageState(cardProvider: cardProvider, colorService: colorService);
 }
 
 class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
