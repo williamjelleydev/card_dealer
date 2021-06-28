@@ -1,9 +1,8 @@
-import 'dart:async';
 import 'package:card_dealer/Services/CardProvider.dart';
 import 'package:card_dealer/Services/ColorService.dart';
 import 'package:card_dealer/Shared/SharedWidgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swipable/flutter_swipable.dart';
+import 'package:card_dealer/Shared/SwipeableCard.dart';
 
 class DealPage extends StatefulWidget {
 
@@ -17,16 +16,12 @@ class DealPage extends StatefulWidget {
 }
 
 class _DealPageState extends State<DealPage> {
+  // TODO: this whole page is not very performant.
+  // Only loading cards as I need them (or asynchronously) would probably solve
+  // most of the performance issues.
+
   int _currentCardIndex = 0;
-  // Hmm - this will be tacky as, since I would need a _new_ stream for _each_ card..
 
-  StreamController<double> _streamController = StreamController<double>();
-
-  // THis is such shit code, but pretty keen to just get it to work for now..
-  List<StreamController> _streamControllers = [];
-
-
-  // This cardProvider _probably_ doesn't need to be stored on here..
   CardProvider cardProvider;
   List<String> cards;
   final ColorService colorService;
@@ -38,16 +33,8 @@ class _DealPageState extends State<DealPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    // _currentCardIndex = cards.length - 1;
-
-    Stream<double> _stream = _streamController.stream;
-
-
-    // TODO: this is probably an expensive operation to get these all...
-    // You should probably think about how to optimise this so each
-    // each swipe might be able to load more or something..?
     List<Widget> allCards  = [];
+    // TODO: stop getting _all_ cards immediately..
     allCards.add(
         ClipRRect(
           borderRadius: BorderRadius.circular(25.0),
@@ -56,13 +43,11 @@ class _DealPageState extends State<DealPage> {
           ),
         )
     );
-    
+
+    // _MAYBE_ this has to be brought out of the build method, so it only happens once..?
     cards.forEach((card) {
-      var streamController = new StreamController<double>();
-      _streamControllers.add(streamController);
-      allCards.add(SwipableCard(
+      allCards.add(SwipeableCard(
         onSwipeCallback: (thing1, thing2) => _currentCardIndex++,
-        swipeControl: streamController.stream,
         card: 'assets/$card'
       ));
     });
@@ -91,11 +76,16 @@ class _DealPageState extends State<DealPage> {
                     if (_currentCardIndex < cards.length) {
                       // For whatever reason .5 angle means it goes right..
                       var angle = 0.5;
-                      _streamControllers[_streamControllers.length - 1 -
-                          _currentCardIndex].add(angle);
+                      // _streamControllers[_streamControllers.length - 1 -
+                      //     _currentCardIndex].add(angle);
+                      var currentCard = allCards[allCards.length - _currentCardIndex - 1];
+                      var currentSwipable = currentCard as SwipeableCard;
+                      // TODO: better null checking here
+                      currentSwipable.getSwipeController().add(angle);
                     }
                   }),
                   button('Shuffle', 20.0, () {
+                    // Hmm - why would this not work..?
                     setState(() {
                       shuffleCards();
                     });
@@ -117,9 +107,27 @@ class _DealPageState extends State<DealPage> {
   }
 
   void shuffleCards() {
-    // well that was easy lol
-    cards.shuffle();
-    _currentCardIndex = 0;
+    // TODO: find better way of making the Shuffle button play nicely with Next Card,
+    // that does NOT involve .pushReplacement().
+
+    // cards.shuffle();
+    // _currentCardIndex = 0;
+    // // _streamControllers = [];
+
+    // as a test I want to try this stackOverflow answer for how to reload a whole page..
+
+    // I mean this _works_ functionally. Is is just kind of shit
+    // It means the enitre page is reloaded, which has a weird jump on the screen...
+    // Is that _really_ an acceptable user experience..?
+    // MAYBE - if I set a loading image of just the background card, then this would be acceptable..?
+    // Or just a new page/layer under this... that only has the image, and is never _really_ reachable
+    // Because it just immediately pushes you onto _this_ page, or back to the HomePage..?
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => this.widget
+      )
+    );
   }
 
 
@@ -149,33 +157,6 @@ class _DealPageState extends State<DealPage> {
             )
         ),
       ),
-    );
-  }
-}
-
-// TODO: this should probably have it's own file..
-class SwipableCard extends StatelessWidget {
-  @override
-
-  final String card;
-  // TODO: these names need to be more descriptive
-  final Stream<double> swipeControl;
-  final Function onSwipeCallback;
-
-  SwipableCard({this.card, this.swipeControl, this.onSwipeCallback});
-
-  Widget build(BuildContext context) {
-    return build2(context);
-  }
-
-  Widget build2(BuildContext context) {
-    return Swipable(
-      onSwipeEnd: onSwipeCallback,
-      swipe: swipeControl,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(25.0),
-        child: Image.asset(card),
-      )
     );
   }
 }
