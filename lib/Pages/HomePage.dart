@@ -58,7 +58,9 @@ class _HomePageState extends State<HomePage> {
                           }),
                           button('Settings', () {
                             Navigator.push(context, new MaterialPageRoute(
-                              builder: (context) => SettingsPage(colorService: colorService)));
+                              builder: (context) => SettingsPage(colorService: colorService))
+                            ).then((_) => setState(() {}));
+                            // Navigator.pushNamed(context, '/SettingsPage').then((_) => setState(() {}));
                           }),
                         ],
                       ),
@@ -72,9 +74,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget button(String text, VoidCallback onPressed) {
-    // TODO: make sure these buttons are all the same size (width) somehow..
     return ElevatedButton(
-      // TODO: redirect to DealPage
       onPressed: onPressed,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 6.0, 0.0, 6.0),

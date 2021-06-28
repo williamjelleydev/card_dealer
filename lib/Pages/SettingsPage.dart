@@ -49,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           colorChangeTile('Background Color', colorService.background, (Color newColor) => colorService.background = newColor),
                           colorChangeTile('Text Color', colorService.text, (Color newColor) => colorService.text = newColor),
                           colorChangeTile('Button Color', colorService.button, (Color newColor) => colorService.button = newColor),
-                          // colorChangeTile('Title Text Color', colorService.titleText, (Color newColor) => colorService.titleText = newColor),
+                          colorChangeTile('Title Text Color', colorService.titleText, (Color newColor) => colorService.setTitleText(newColor)),
                           colorChangeTile('Title Background Color', colorService.titleBackGround, (Color newColor) => colorService.titleBackGround = newColor),
                         ],
                       )
