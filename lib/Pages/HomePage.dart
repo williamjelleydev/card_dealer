@@ -32,11 +32,13 @@ class _HomePageState extends State<HomePage> {
           child: Container(
             child: Stack(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/${cardProvider.getBackCard()}"),
-                      )
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25.0),
+                    child: Image.asset(
+                      "assets/${cardProvider.getBackCard()}",
+                      fit: BoxFit.fill
+                    )
                   ),
                 ),
                 new Center(

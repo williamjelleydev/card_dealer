@@ -36,5 +36,13 @@ class ColorService {
     titleText = value;
   }
 
+  void resetToPresets() {
+    background = poolGreen;
+    titleBackGround = appBar;
+    button = buttonInitial;
+    text = textInitial;
+    titleText = titleTextInitial;
+  }
+
 
 }

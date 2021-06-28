@@ -112,33 +112,98 @@ class _SettingsPageState extends State<SettingsPage> {
                     });
                   }
                 ),
-                ElevatedButton(
-                  // TODO: I need a cancel, or back button here as well...
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith((states) =>
-                      colorService.button),
-                      shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular((18.0)),
-                            side: BorderSide(color: Colors.black, width: 3.0),
-                          )
+                // TODO: need some kind of banner that explain _what_ I am even changing...
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // TODO: spacing between these is pretty weird and should be fixed lol...
+                    ElevatedButton(
+                      // TODO: I need a cancel, or back button here as well...
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith((states) =>
+                        colorService.button),
+                        shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular((18.0)),
+                              side: BorderSide(color: Colors.black, width: 3.0),
+                            )
+                        ),
                       ),
-                  ),
-                  onPressed: () {
-                    // TODO:This will have to setState for the colorchange..
-                    setState(() {
-                      // TODO: This right here will have to change the color via colorService..
-                      onChangeColor(_currentSelectedColor);
-                      changingColour = false;
-                    });
-                  },
-                  child: Text(
-                    // TODO: would be nice if this _was_ also the color that we have selected..
-                      'Confirm Color',
-                    style: TextStyle(
-                      color: Colors.black87,
+                      onPressed: () {
+                        // TODO:This will have to setState for the colorchange..
+                        setState(() {
+                          // TODO: This right here will have to change the color via colorService..
+                          // onChangeColor(_currentSelectedColor);
+                          changingColour = false;
+                        });
+                      },
+                      child: Text(
+                        // TODO: would be nice if this _was_ also the color that we have selected..
+                        'Cancel',
+                        style: TextStyle(
+                          color: Colors.black87,
+                        ),
+                      )
                     ),
-                  )
+                    ElevatedButton(
+                      // TODO: I need a cancel, or back button here as well...
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith((states) =>
+                          colorService.button),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular((18.0)),
+                                side: BorderSide(color: Colors.black, width: 3.0),
+                              )
+                          ),
+                        ),
+                        onPressed: () {
+                          // TODO:This will have to setState for the colorchange..
+                          setState(() {
+                            // TODO: This right here will have to change the color via colorService..
+                            onChangeColor(_currentSelectedColor);
+                            changingColour = false;
+                          });
+                        },
+                        child: Text(
+                          // TODO: would be nice if this _was_ also the color that we have selected..
+                          'Confirm',
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 25.0
+                          ),
+                        )
+                    ),
+                    ElevatedButton(
+                      // TODO: I need a cancel, or back button here as well...
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.resolveWith((states) =>
+                          colorService.button),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular((18.0)),
+                                side: BorderSide(color: Colors.black, width: 3.0),
+                              )
+                          ),
+                        ),
+                        onPressed: () {
+                          // TODO:This will have to setState for the colorchange..
+                          setState(() {
+                            // TODO: This right here will have to change the color via colorService..
+                            // onChangeColor(_currentSelectedColor);
+                            changingColour = false;
+                            colorService.resetToPresets();
+                          });
+                        },
+                        child: Text(
+                          // TODO: would be nice if this _was_ also the color that we have selected..
+                          'Reset',
+                          style: TextStyle(
+                            color: Colors.black87,
+                          ),
+                        )
+                    ),
+                  ],
                 ),
               ],
             ),
