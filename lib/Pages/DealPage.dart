@@ -1,5 +1,6 @@
 import 'package:card_dealer/Constants/MyColors.dart';
 import 'package:card_dealer/Services/CardProvider.dart';
+import 'package:card_dealer/Services/ColorService.dart';
 import 'package:card_dealer/Shared/SharedWidgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipable/flutter_swipable.dart';
@@ -7,11 +8,12 @@ import 'package:flutter_swipable/flutter_swipable.dart';
 class DealPage extends StatefulWidget {
 
   final CardProvider cardProvider;
+  final ColorService colorService;
 
-  DealPage({this.cardProvider});
+  DealPage({this.cardProvider, this.colorService});
 
   @override
-  _DealPageState createState() => _DealPageState(cardProvider: cardProvider);
+  _DealPageState createState() => _DealPageState(cardProvider: cardProvider, colorService: colorService);
 }
 
 class _DealPageState extends State<DealPage> {
@@ -20,8 +22,9 @@ class _DealPageState extends State<DealPage> {
   // This cardProvider _probably_ doesn't need to be stored on here..
   CardProvider cardProvider;
   List<String> cards;
+  final ColorService colorService;
 
-  _DealPageState({this.cardProvider}) {
+  _DealPageState({this.cardProvider, this.colorService}) {
     cards = cardProvider.getAvailableCards();
     cards.shuffle();
   }
@@ -45,8 +48,8 @@ class _DealPageState extends State<DealPage> {
     // And then once it gets swiped, it then loads the next card or something..?
     // I kind of feel like I should have that card on the back, but maybe not..?
     return new Scaffold(
-        appBar: SharedWidgets().appBar('Card Dealer'),
-        backgroundColor: MyColors.poolGreen,
+        appBar: SharedWidgets().appBar('Card Dealer', colorService),
+        backgroundColor: colorService.background,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -113,13 +116,13 @@ class _DealPageState extends State<DealPage> {
             text,
             style: TextStyle(
                 fontSize: fontSize,
-                color: MyColors.text
+                color: colorService.text
             )
         ),
       ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith((states) =>
-        MyColors.button),
+        colorService.button),
         shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular((18.0)),

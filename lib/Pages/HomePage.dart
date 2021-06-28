@@ -1,7 +1,9 @@
 import 'package:card_dealer/Constants/MyColors.dart';
 import 'package:card_dealer/Pages/CustomizeDeckPage.dart';
 import 'package:card_dealer/Pages/DealPage.dart';
+import 'package:card_dealer/Pages/SettingsPage.dart';
 import 'package:card_dealer/Services/CardProvider.dart';
+import 'package:card_dealer/Services/ColorService.dart';
 import 'package:card_dealer/Shared/SharedWidgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +14,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // TODO:
+  // You need to make sure you set the state when you pop the SettingsPage off and return!
+  // Rememer that this _might_ have affedted the homepage so needs to be rebuilt
 
   // I don't _actually_ get this whole final thing tbh..
   final CardProvider cardProvider = CardProvider();
+  final ColorService colorService = ColorService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SharedWidgets().appBar('Card Dealer'),
-        backgroundColor: MyColors.poolGreen,
+        appBar: SharedWidgets().appBar('Card Dealer', colorService),
+        backgroundColor: colorService.background,
         body: Padding(
           padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
           child: Container(
@@ -42,13 +48,15 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           button('Deal Cards!', () {
                             Navigator.push(context, new MaterialPageRoute(
-                                builder: (context) => DealPage(cardProvider: cardProvider)));
+                              builder: (context) => DealPage(cardProvider: cardProvider, colorService: colorService)));
                           }),
                           button('Customize Deck', () {
                             Navigator.push(context, new MaterialPageRoute(
-                                builder: (context) => CustomizeDeckPage(cardProvider: cardProvider)));
+                              builder: (context) => CustomizeDeckPage(cardProvider: cardProvider, colorService: colorService,)));
                           }),
                           button('Settings', () {
+                            Navigator.push(context, new MaterialPageRoute(
+                              builder: (context) => SettingsPage(colorService: colorService)));
                           }),
                         ],
                       ),
@@ -72,12 +80,12 @@ class _HomePageState extends State<HomePage> {
           text,
           style: TextStyle(
             fontSize: 35.0,
-            color: MyColors.text
+            color: colorService.text
             )
         ),
       ),
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith((states) => MyColors.button),
+        backgroundColor: MaterialStateProperty.resolveWith((states) => colorService.button),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular((18.0)),

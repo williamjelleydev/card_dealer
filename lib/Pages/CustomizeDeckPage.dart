@@ -1,5 +1,6 @@
 import 'package:card_dealer/Constants/MyColors.dart';
 import 'package:card_dealer/Services/CardProvider.dart';
+import 'package:card_dealer/Services/ColorService.dart';
 import 'package:card_dealer/Shared/SharedWidgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,20 +9,22 @@ import 'package:flutter/material.dart';
 class CustomizeDeckPage extends StatefulWidget {
 
   final CardProvider cardProvider;
+  final ColorService colorService;
 
-  CustomizeDeckPage({this.cardProvider});
+  CustomizeDeckPage({this.cardProvider, this.colorService});
 
   @override
   _CustomizeDeckPageState createState() => _CustomizeDeckPageState(cardProvider: cardProvider);
 }
 
 class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
-  CardProvider cardProvider;
+  final CardProvider cardProvider;
+  final ColorService colorService;
 
   List<String> allCards;
   int currentCardIndex = 0;
 
-  _CustomizeDeckPageState({this.cardProvider}) {
+  _CustomizeDeckPageState({this.cardProvider, this.colorService}) {
     // TODO: we really want a list of all _ordered_ cards here
     allCards = cardProvider.getAvailableCards();
   }
@@ -30,8 +33,8 @@ class _CustomizeDeckPageState extends State<CustomizeDeckPage> {
   Widget build(BuildContext context) {
 
     return new Scaffold(
-      appBar: SharedWidgets().appBar('Customize Deck'),
-      backgroundColor: MyColors.poolGreen,
+      appBar: SharedWidgets().appBar('Customize Deck', colorService),
+      backgroundColor: colorService.background,
       body: Column(
         children: [
           Wrap(
