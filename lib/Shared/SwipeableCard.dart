@@ -20,6 +20,7 @@ class SwipeableCard extends StatelessWidget {
           child: Image.asset(card),
         )
     );
+    
   }
 
   StreamController<double> getSwipeController() {

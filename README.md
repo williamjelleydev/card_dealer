@@ -1,16 +1,30 @@
-# card_dealer
+# Card Dealer
 
-Basic app that deals cards
+Basic app that deals a standard deck of cards by swiping.
 
-## Getting Started
+## Running
+* Pull repo, and run code in android studio on an emulator
 
-This project is a starting point for a Flutter application.
+## How it looks
 
-A few resources to get you started if this is your first Flutter project:
+TODO: I want to put my "Screen_Recording_of_beta.mov" vid here, but it's
+not showing up locally :( I guess that I'll just push this and see if it works on github
+for some reason I can't think of..?
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<video width="320" height="240" controls>
+  <source src="Screen_Recording_of_beta.mov" type="video/mp4">
+</video>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+<figure class="video_container">
+  <video controls="true" allowfullscreen="true" poster="path/to/poster_image.png">
+    <source src="Screen_Recording_of_beta.mov" type="video/mp4">
+  </video>
+</figure>
+
+
+<figure class="video_container">
+  <iframe src="https://www.youtube.com/embed/enMumwvLAug" frameborder="0" allowfullscreen="true"> </iframe>
+</figure>
+
+
