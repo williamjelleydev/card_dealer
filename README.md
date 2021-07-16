@@ -11,6 +11,9 @@ TODO: I want to put my "Screen_Recording_of_beta.mov" vid here, but it's
 not showing up locally :( I guess that I'll just push this and see if it works on github
 for some reason I can't think of..?
 
+Nope! That didn't work for some reason :(
+
+
 <video width="320" height="240" controls>
   <source src="Screen_Recording_of_beta.mov" type="video/mp4">
 </video>
